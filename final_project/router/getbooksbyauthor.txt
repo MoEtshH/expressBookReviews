@@ -1,0 +1,9 @@
+curl localhost:5000/author/Hans%20Christian%20Andersen
+
+[
+    {
+        "isbn": "2",
+        "title": "Fairy tales",
+        "reviews": {}
+    }
+]
