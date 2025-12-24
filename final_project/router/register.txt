@@ -1,0 +1,8 @@
+curl -X POST http://localhost:5000/register -H "Content-Type: application/json" -d '{"username":"Mo","password":"coursera"}'
+Username Mo is now registered
+
+curl -X POST http://localhost:5000/register -H "Content-Type: application/json" -d '{"username":"Mo","password":"coursera"}'
+Username Mo already exists
+
+curl -X POST http://localhost:5000/register -H "Content-Type: application/json" -d '{"username":"or"}'
+Username and password must be provided
