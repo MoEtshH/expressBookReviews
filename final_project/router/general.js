@@ -36,15 +36,25 @@ public_users.get("/author/:author", function (req, res) {
   if (results.length >= 1) {
     return res.status(200).send(JSON.stringify(results, null, 4));
   }
-  return res
-    .status(400)
-    .json({ message: `Author ${req.params.author} does not exist` });
+  return res.status(400).json({ message: `Author ${author} does not exist` });
 });
 
 // Get all books based on title
 public_users.get("/title/:title", function (req, res) {
-  //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  const title = req.params.title;
+
+  const results = Object.entries(books)
+    .filter(([, b]) => b.title === title)
+    .map(([isbn, b]) => ({
+      isbn: isbn,
+      author: b.author,
+      reviews: b.reviews,
+    }));
+
+  if (results.length >= 1) {
+    return res.status(200).send(JSON.stringify(results, null, 4));
+  }
+  return res.status(400).json({ message: `Title ${title} does not exist` });
 });
 
 //  Get book review
