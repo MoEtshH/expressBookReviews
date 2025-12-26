@@ -1,0 +1,11 @@
+curl -X POST http://localhost:5000/register -H "Content-Type: application/json" -d '{"username":"Mo","password":"coursera"}'
+Username Mo is now registered
+
+curl -X POST http://localhost:5000/customer/login -H "Content-Type: application/json" -d '{"username":"Mo","password":"coursera"}'
+{"message":"Successfully logged in"}
+
+curl -X POST http://localhost:5000/customer/login -H "Content-Type: application/json" -d '{"username":"Mo","password":"courseraaaaaa"}'
+{"message":"Invalid Login. Check username and password"}
+
+curl -X POST http://localhost:5000/customer/login -H "Content-Type: application/json" -d '{"username":"Mo"}'
+{"message":"Error logging in"}

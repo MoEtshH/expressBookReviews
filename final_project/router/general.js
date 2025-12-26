@@ -16,7 +16,8 @@ public_users.post("/register", (req, res) => {
     return res.status(400).send(`Username ${username} already exists`);
   }
 
-  users.push({ username, password });
+  users.push({ username: username, password: password });
+  console.log(users);
   return res.status(200).send(`Username ${username} is now registered`);
 });
 
