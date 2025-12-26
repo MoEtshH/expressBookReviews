@@ -1,0 +1,32 @@
+
+$ curl -X POST http://localhost:5000/register -H "Content-Type: application/json" -d '{"username":"Mo","password":"coursera"}'
+Username Mo is now registered
+
+$ curl -c cookies.txt -X POST http://localhost:5000/customer/login -H "Content-Type: application/json" -d '{"username":"Mo","password":"coursera"}'
+{"message":"Successfully logged in"}
+
+$ curl -b cookies.txt -X PUT "http://localhost:5000/customer/auth/review/1?review=wonderful%20book"
+{"message":"Review for book with isbn 1 is added"}
+
+$ curl localhost:5000/review/1      
+{"Mo":"wonderful book"}
+
+$ curl -X POST http://localhost:5000/register -H "Content-Type: application/json" -d '{"username":"omariko",
+"password":"coursera"}'
+Username omariko is now registered
+
+$ curl -c cookies.txt -X POST http://localhost:5000/customer/login -H "Content-Type: application/json" -d '{"username":"omariko","password":"cou
+rsera"}'
+{"message":"Successfully logged in"}
+
+$ curl -b cookies.txt -X PUT "http://localhost:5000/customer/auth/review/1?review=Amazing%20book"
+{"message":"Review for book with isbn 1 is added"}
+
+$ curl localhost:5000/review/1      
+{"Mo":"wonderful book","omariko":"Amazing book"}
+
+$ curl -b cookies.txt -X DELETE "http://localhost:5000/customer/auth/review/1"
+{"message":"Book review for username omariko deleted"}
+
+$ curl localhost:5000/review/1      
+{"Mo":"wonderful book"}

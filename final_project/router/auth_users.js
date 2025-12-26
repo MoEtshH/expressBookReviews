@@ -69,6 +69,28 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     .json({ message: `Review for book with isbn ${isbn} is added` });
 });
 
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+  const isbn = req.params.isbn;
+  const username = req.user.username;
+
+  if (!(isbn in books)) {
+    return res
+      .status(400)
+      .json({ message: `Book with isbn ${isbn} does not exist` });
+  }
+
+  if (!(username in books[isbn].reviews)) {
+    return res.status(400).json({
+      message: `There is currently no reviews for this book under the username ${username}`,
+    });
+  }
+
+  delete books[isbn].reviews[username];
+  return res
+    .status(200)
+    .json({ message: `Book review for username ${username} deleted` });
+});
+
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
