@@ -32,7 +32,7 @@ regd_users.post("/login", (req, res) => {
   // Authenticate user
   if (authenticatedUser(username, password)) {
     // Generate jwt access token
-    let accessToken = jwt.sign({ data: password }, "access", {
+    let accessToken = jwt.sign({ username, password }, "access", {
       expiresIn: 60 * 60,
     });
 
@@ -48,8 +48,25 @@ regd_users.post("/login", (req, res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  const review = req.query.review;
+  const isbn = req.params.isbn;
+
+  if (!(isbn in books)) {
+    return res
+      .status(400)
+      .json({ message: `Book with isbn ${isbn} does not exist` });
+  }
+
+  if (review.trim() === "") {
+    return res.status(400).json({ message: "Review must not be empty" });
+  }
+
+  const username = req.user.username;
+  books[isbn].reviews = { ...books[isbn].reviews, [username]: review };
+
+  return res
+    .status(200)
+    .json({ message: `Review for book with isbn ${isbn} is added` });
 });
 
 module.exports.authenticated = regd_users;

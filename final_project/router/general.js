@@ -17,7 +17,6 @@ public_users.post("/register", (req, res) => {
   }
 
   users.push({ username: username, password: password });
-  console.log(users);
   return res.status(200).send(`Username ${username} is now registered`);
 });
 

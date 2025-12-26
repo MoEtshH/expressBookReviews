@@ -1,0 +1,17 @@
+curl -X POST http://localhost:5000/register -H "Content-Type: application/json" -d '{"username":"Mo","password":"coursera"}'
+Username Mo is now registered
+
+curl -c cookies.txt -X POST http://localhost:5000/customer/login -H "Content-Type: application/json" -d '{"username":"Mo","password":"coursera"}'
+{"message":"Successfully logged in"}
+
+curl -b cookies.txt -X PUT "http://localhost:5000/customer/auth/review/1?review=wonderful%20book"
+{"message":"Review for book with isbn 1 is added"}
+
+curl localhost:5000/review/1
+{"Mo":"wonderful book"}
+
+curl -b cookies.txt -X PUT "http://localhost:5000/customer/auth/review/20?review=wonderful%20book"
+{"message":"Book with isbn 20 does not exist"}
+
+curl -b cookies.txt -X PUT "http://localhost:5000/customer/auth/review/1?review="
+{"message":"Review must not be empty"}
