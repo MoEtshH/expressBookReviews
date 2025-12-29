@@ -81,21 +81,32 @@ public_users.get("/author/:author", async (req, res) => {
 });
 
 // Get all books based on title
-public_users.get("/title/:title", function (req, res) {
+public_users.get("/title/:title", async (req, res) => {
   const title = req.params.title;
 
-  const results = Object.entries(books)
-    .filter(([, b]) => b.title === title)
-    .map(([isbn, b]) => ({
-      isbn: isbn,
-      author: b.author,
-      reviews: b.reviews,
-    }));
+  try {
+    const book = Object.entries(books)
+      .filter(([, b]) => b.title === title)
+      .map(([isbn, b]) => ({
+        isbn: isbn,
+        author: b.author,
+        reviews: b.reviews,
+      }));
 
-  if (results.length >= 1) {
-    return res.status(200).send(JSON.stringify(results, null, 4));
+    if (book.length < 1) {
+      return res
+        .status(400)
+        .send(`Book title ${title} does not exist in the available books`);
+    }
+    const data = await new Promise((resolve, reject) => {
+      const result = JSON.stringify(book, null, 4);
+      resolve(result);
+    });
+
+    return res.status(200).send(data);
+  } catch (error) {
+    res.status(400).json({ message: "Error getting book based in title" });
   }
-  return res.status(400).json({ message: `Title ${title} does not exist` });
 });
 
 //  Get book review
